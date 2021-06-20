@@ -1,0 +1,26 @@
+// Variables
+$text: #343434;
+$pink: #ef7f9c;
+
+// Max-width
+$desktop: 1919px;
+$laptop: 1439px;
+$tablet: 1199px;
+$mobile: 767px;
+$mobile-sm: 374px;
+
+// Mixins
+@mixin font($font_name, $file_name, $weight, $style) {
+  @font-face {
+    font-family: $font_name;
+    font-display: swap;
+    src: url("../fonts/#{$file_name}.woff") format("woff"),
+      url("../fonts/#{$file_name}.woff2") format("woff2");
+    font-weight: #{$weight};
+    font-style: #{$style};
+  }
+}
+
+@include font("Circe", "Circe-Light", "300", "normal");
+@include font("Circe", "Circe-Regular", "400", "normal");
+@include font("Circe", "Circe-Bold", "700", "normal");
