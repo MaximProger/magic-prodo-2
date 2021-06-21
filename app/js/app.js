@@ -7,10 +7,10 @@ $(document).ready(function () {
       slidesToScroll: 1,
       infinite: true,
       centerMode: false,
-      // autoplay: true,
+      autoplay: true,
       prevArrow: $("#introArrowPrev"),
       nextArrow: $("#introArrowNext"),
-      asNavFor: "#introNumbers,#introNav",
+      asNavFor: "#introNav",
       responsive: [
         {
           breakpoint: 1199,
@@ -21,20 +21,30 @@ $(document).ready(function () {
       ],
     });
 
+  $("#introSlider").on(
+    "beforeChange",
+    function (event, slick, currentSlide, nextSlide) {
+      $(".intro__numbers__item").removeClass("intro__numbers__item--active");
+
+      const currSlide = $(`.intro__numbers__item:nth-child(${nextSlide + 1})`);
+
+      currSlide.addClass("intro__numbers__item--active");
+    }
+  );
+
   $("#introNav").not(".slick-initialized").slick({
     arrows: false,
     slidesToShow: 4,
     slidesToScroll: 1,
-    asNavFor: "#introSlider,#introNumbers",
+    asNavFor: "#introSlider",
     focusOnSelect: true,
   });
 
-  $("#introNumbers").not(".slick-initialized").slick({
-    arrows: false,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    asNavFor: "#introSlider,#introNav",
-    focusOnSelect: true,
+  $("[data-number]").click(function (evt) {
+    evt.preventDefault();
+    const thisNumberIndex = $(this).data("number");
+    $("#introSlider").slick("slickGoTo", thisNumberIndex);
+    $("#introNav").slick("slickGoTo", thisNumberIndex);
   });
 
   // "Плейсхолдеры" у инпутов
@@ -73,9 +83,9 @@ $(document).ready(function () {
     $("html").toggleClass("noscroll");
   });
 
-  var header = $("#header");
-  var introH = $("#intro").innerHeight();
-  var scrollOffset = $(window).scrollTop();
+  let header = $("#header");
+  let introH = $("#intro").innerHeight();
+  let scrollOffset = $(window).scrollTop();
 
   /* Fixed Header */
   checkScroll(scrollOffset);
